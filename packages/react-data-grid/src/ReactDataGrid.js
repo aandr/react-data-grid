@@ -70,6 +70,8 @@ const ReactDataGrid = React.createClass({
     onDragHandleDoubleClick: React.PropTypes.func,
     onGridRowsUpdated: React.PropTypes.func,
     onRowSelect: React.PropTypes.func,
+    onCellClick: React.PropTypes.func,
+    onCellDoubleClick: React.PropTypes.func,
     rowKey: React.PropTypes.string,
     rowScrollTimeout: React.PropTypes.number,
     onClearFilters: React.PropTypes.func,
@@ -198,6 +200,10 @@ const ReactDataGrid = React.createClass({
   onCellClick: function(cell: SelectedType) {
     this.onSelect({rowIdx: cell.rowIdx, idx: cell.idx});
 
+    if (this.props.onCellClick && typeof this.props.onCellClick === 'function') {
+      this.props.onCellClick(cell.rowIdx, cell.idx)
+    }
+
     if (this.props.onRowClick && typeof this.props.onRowClick === 'function') {
       this.props.onRowClick(cell.rowIdx, this.props.rowGetter(cell.rowIdx));
     }
@@ -211,6 +217,10 @@ const ReactDataGrid = React.createClass({
   },
 
   onCellDoubleClick: function(cell: SelectedType) {
+    if (this.props.onCellDoubleClick && typeof this.props.onCellDoubleClick === 'function') {
+      this.props.onCellDoubleClick(cell.rowIdx, cell.idx)
+    }
+
     this.onSelect({rowIdx: cell.rowIdx, idx: cell.idx});
     this.setActive('Enter');
   },
